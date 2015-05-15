@@ -1,11 +1,8 @@
 package com.example;
 
-import org.easymock.EasyMock;
-import org.easymock.EasyMockRunner;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import org.junit.runner.RunWith;
 import java.util.ArrayList;
 
 /**
@@ -13,88 +10,17 @@ import java.util.ArrayList;
  *
  * This is the testing class for wordFinder.
  */
-@RunWith(EasyMockRunner.class)
 public class wordFinderTest {
 
     wordFinder systemUnderTest;
-    wordDict mockedDict;
+    dictionAerie dict;
 
     @Before
     public void setup() {
+        String[] wordArray = new String[]{"mouse", "dog", "dogs", "cat", "cats", "caterpillar"};
+        dict = new dictionAerie(wordArray);
         systemUnderTest = new wordFinder();
-        mockedDict = EasyMock.createMock(wordDict.class);
-        systemUnderTest.setDictionary(mockedDict);
-
-        // setting true expectations for valid words
-        EasyMock.expect(mockedDict.checkWord("mouse")).andReturn(true).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("dog")).andReturn(true).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("dogs")).andReturn(true).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("cat")).andReturn(true).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("cats")).andReturn(true).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("caterpillar")).andReturn(true).anyTimes();
-        // setting negative expectations on checking chars in the word 'mouse'
-        EasyMock.expect(mockedDict.checkWord("m")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("mo")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("mou")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("mous")).andReturn(false).anyTimes();
-        // setting negative expectations on checking chars in the word 'dog'
-        EasyMock.expect(mockedDict.checkWord("d")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("do")).andReturn(false).anyTimes();
-        // setting negative expectations on checking chars in the word 'cat'
-        EasyMock.expect(mockedDict.checkWord("c")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("ca")).andReturn(false).anyTimes();
-        // setting negative expectations for caterpillar
-        EasyMock.expect(mockedDict.checkWord("cate")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("cater")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("caterp")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("caterpi")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("caterpil")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("caterpill")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("caterpilla")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("er")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("erp")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("erpi")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("erpil")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("erpill")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("erpilla")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("erpillar")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("caterpillard")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("caterpillardo")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("caterpillardog")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("caterpillardogs")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("erpillard")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("erpillardo")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("erpillardog")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("erpillardogs")).andReturn(false).anyTimes();
-        // setting random false permutations of requests to dictionary
-        EasyMock.expect(mockedDict.checkWord("e")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("s")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("sc")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("sca")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("scat")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("catd")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("catdo")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("catdog")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("catsd")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("catsdo")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("catsdog")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("o")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("g")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("mousec")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("mouseca")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("mousecat")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("dogc")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("dogca")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("dogsc")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("dogsca")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("dogscat")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("dogsm")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("dogsmo")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("dogsmou")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("dogsmous")).andReturn(false).anyTimes();
-        EasyMock.expect(mockedDict.checkWord("dogsmouse")).andReturn(false).anyTimes();
-        // set mock to testing mode
-        EasyMock.replay(mockedDict);
+        systemUnderTest.setDictionary(dict);
     }
 
     @Test
