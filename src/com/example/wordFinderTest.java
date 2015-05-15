@@ -1,6 +1,5 @@
 package com.example;
 
-import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
@@ -15,22 +14,22 @@ public class wordFinderTest {
     wordFinder systemUnderTest;
     dictionAerie dict;
 
-    @Before
-    public void setup() {
-        String[] wordArray = new String[]{"mouse", "dog", "dogs", "cat", "cats", "caterpillar"};
+    @Test
+    public void test_empty() {
+        String[] wordArray = new String[]{"dog"};
         dict = new dictionAerie(wordArray);
         systemUnderTest = new wordFinder();
         systemUnderTest.setDictionary(dict);
-    }
-
-    @Test
-    public void test_empty() {
         ArrayList<String> result = systemUnderTest.findWords("");
         assertEquals(0, result.size());
     }
 
     @Test
     public void test_singleWord() {
+        String[] wordArray = new String[]{"dog"};
+        dict = new dictionAerie(wordArray);
+        systemUnderTest = new wordFinder();
+        systemUnderTest.setDictionary(dict);
         // process 'dog'
         ArrayList<String> result = systemUnderTest.findWords("dog");
         assertEquals(1, result.size());
@@ -39,6 +38,10 @@ public class wordFinderTest {
 
     @Test
     public void test_doubleWord() {
+        String[] wordArray = new String[]{"cat", "dog"};
+        dict = new dictionAerie(wordArray);
+        systemUnderTest = new wordFinder();
+        systemUnderTest.setDictionary(dict);
         // process 'catdog'
         ArrayList<String> result = systemUnderTest.findWords("catdog");
         assertEquals(2, result.size());
@@ -48,6 +51,10 @@ public class wordFinderTest {
 
     @Test
     public void test_tripleWord() {
+        String[] wordArray = new String[]{"cat", "dog", "mouse"};
+        dict = new dictionAerie(wordArray);
+        systemUnderTest = new wordFinder();
+        systemUnderTest.setDictionary(dict);
         //process mousecatdog
         ArrayList<String> result = systemUnderTest.findWords("mousecatdog");
         assertEquals(3, result.size());
@@ -58,6 +65,10 @@ public class wordFinderTest {
 
     @Test
     public void test_longerTrueWord() {
+        String[] wordArray = new String[]{"cat", "dog", "dogs"};
+        dict = new dictionAerie(wordArray);
+        systemUnderTest = new wordFinder();
+        systemUnderTest.setDictionary(dict);
         // process dogscat
         ArrayList<String> result = systemUnderTest.findWords("dogscat");
         assertEquals(2, result.size());
@@ -66,7 +77,11 @@ public class wordFinderTest {
     }
 
     @Test
-    public void test_longerDoubleWord() {
+    public void test_longerTrueDoubleWord() {
+        String[] wordArray = new String[]{"cat", "cats", "dog", "dogs", "mouse"};
+        dict = new dictionAerie(wordArray);
+        systemUnderTest = new wordFinder();
+        systemUnderTest.setDictionary(dict);
         //process catsdogsmouse
         ArrayList<String> result = systemUnderTest.findWords("catsdogsmouse");
         assertEquals(3, result.size());
@@ -77,10 +92,38 @@ public class wordFinderTest {
 
     @Test
     public void test_muchLongerDoubleWord() {
+        String[] wordArray = new String[]{"caterpillar", "dog", "cat"};
+        dict = new dictionAerie(wordArray);
+        systemUnderTest = new wordFinder();
+        systemUnderTest.setDictionary(dict);
         ArrayList<String> result = systemUnderTest.findWords("caterpillardog");
         assertEquals(2, result.size());
         assertEquals("caterpillar", result.get(0));
         assertEquals("dog", result.get(1));
+    }
+
+    @Test
+    public void test_multiSubStrings() {
+        String[] wordArray = new String[]{"caterpillar", "dog", "cat", "cater", "pillar", "pill"};
+        dict = new dictionAerie(wordArray);
+        systemUnderTest = new wordFinder();
+        systemUnderTest.setDictionary(dict);
+        ArrayList<String> result = systemUnderTest.findWords("caterpillardog");
+        assertEquals(2, result.size());
+        assertEquals("caterpillar", result.get(0));
+        assertEquals("dog", result.get(1));
+    }
+
+    @Test
+    public void test_complexSubStringing() {
+        String[] wordArray = new String[]{"caterpillar", "chainsaw", "cat", "cater", "pillar", "pill", "saw"};
+        dict = new dictionAerie(wordArray);
+        systemUnderTest = new wordFinder();
+        systemUnderTest.setDictionary(dict);
+        ArrayList<String> result = systemUnderTest.findWords("caterpillarchainsaw");
+        assertEquals(2, result.size());
+        assertEquals("caterpillar", result.get(0));
+        assertEquals("chainsaw", result.get(1));
     }
 
 }

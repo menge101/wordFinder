@@ -16,6 +16,26 @@ public class wordFinder {
         dictionary = w;
     }
 
+    private ArrayList<String> postProcessing(ArrayList<String> results) {
+        // checking for compound words
+        for(int i = 0; i < (results.size() - 1); i++) {
+            String compoundWord = results.get(i) + results.get(i+1);
+            if (dictionary.checkWord(compoundWord)) {
+                results.set(i, compoundWord);
+                results.set((i+1), "");
+            }
+        }
+
+        //removing empty strings from result set
+        for(int i = 0; i < results.size(); i++) {
+            if(results.get(i).equals("")) {
+                results.remove("");
+                i--;
+            }
+        }
+        return results;
+    }
+
     public ArrayList<String> findWords(String input) {
         String working_word = ""; // gets truncated to what we believe is the word we are working on building
         String possible_word = ""; // maintains a static first guess at a word
@@ -52,6 +72,6 @@ public class wordFinder {
                 }
             }
         }
-        return results;
+        return postProcessing(results);
     }
 }
